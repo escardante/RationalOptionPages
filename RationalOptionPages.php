@@ -383,8 +383,11 @@ class RationalOptionPages {
 		}
 		
 		// Sanitize field values
-		$field['value'] = strip_tags($field['value']);		// Removes HTML tags
-		$field['value'] = esc_attr($field['value']);		// Escapes field for HTML attributes
+		if ( $field['type'] !== 'wp_editor' ) {
+			$field['value'] = strip_tags($field['value']);		// Removes HTML tags
+			$field['value'] = esc_attr($field['value']);		// Escapes field for HTML attributes
+		}
+
 				
 		switch ( $field['type'] ) {
 			case 'checkbox':
@@ -575,6 +578,9 @@ class RationalOptionPages {
 								if ( empty( $input[ $field['id'] ] ) ) {
 									$input[ $field['id'] ] = false;
 								}
+								break;
+							case 'wp_editor':
+								$input[ $field['id'] ] = $input[ $field['id'] ];
 								break;
 							default:
 								$input[ $field['id'] ] = strip_tags($input[ $field['id'] ]);
